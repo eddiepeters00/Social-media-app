@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <script src="../index.ts"></script>
+    <script src="../index.ts" type="module"></script>
 </head>
 <body>
     <main class="flex-container">
         <div>
-            <h1>CodeBook</h1>
+            <h1>DevRoom</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente aliquid suscipit molestias ut consectetur! Vitae adipisci error aperiam labore blanditiis.</p>
         </div>
 
-            <form action="" class="form-container">
-                <input type="text">
-                <input type="email">
-                <input type="password">
+            <form action="" class="form-container" id="register-form">
+                <input type="text" name="name">
+                <input type="email" name="email">
+                <input type="password" name="password">
                 <label for="select-image">Choose profile picture</label>
                 <input type="image" name="select-image">
                 <button>Create Account</button>
