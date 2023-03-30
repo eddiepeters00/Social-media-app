@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <script src="../index.ts" type="module"></script>
+    <script src="../modules/register.ts" type="module"></script>
 </head>
 <body>
     <main class="flex-container">
@@ -20,7 +20,11 @@
                 <input type="email" name="email">
                 <input type="password" name="password">
                 <label for="select-image">Choose profile picture</label>
-                <input type="image" name="select-image">
+                <div class="image-select">
+                    <img src="#" alt="1" aria-valuetext="snögubbe">
+                    <img src="#" alt="2" aria-valuetext="regnbåge">
+                    <img src="#" alt="3" aria-valuetext="havsutsikt">
+                </div>
                 <button>Create Account</button>
             </form>
             <a href="../index.html">Back to sign in</a>
