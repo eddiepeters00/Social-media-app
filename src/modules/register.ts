@@ -25,7 +25,7 @@ registerForm.addEventListener('submit', e => {
             userObj[input.name] = input.value;
         }
     });
-    
+
     registerHandler(userObj);
 });
 
@@ -39,7 +39,7 @@ async function registerHandler(userObj: UserInput) {
 
         //Add animation? 
         setTimeout(() => {
-            location.assign('/src/index.html');
+            location.replace('/src/index.html');
         }, 1000);
     } else {
         //Prompt message to user

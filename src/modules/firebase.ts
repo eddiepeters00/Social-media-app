@@ -19,40 +19,44 @@ async function getAllUsers(): Promise<UserValidation[]> {
     const url: string = 'https://js2-social-media-default-rtdb.europe-west1.firebasedatabase.app/users.json';
     const response = await fetch(url);
     const users = await response.json();
-    console.log(users)
     return users;
 }
 
 //Checks if the new users password and email matches an registered users email and password
 //Return true if its a match
-function validateUser(users: UserValidation[], userObj: UserInput):boolean{
+function validateUser(users: UserValidation[], userObj: UserInput): boolean {
     let userFound: boolean = false;
 
     console.log('VALIDATION');
-    console.log('ALL USERS',users);
+    console.log('ALL USERS', users);
     console.log('USER OBJECT', userObj);
-    if(users !== null){
+    if (users !== null) {
         for (const user of users) {
             if (user["email"] === userObj["email"] && user["password"] === userObj["password"]) {
-              console.log('User found!');
-              userFound = true;
+                console.log('User found!');
+                userFound = true;
             }
-            else{
-                console.log('User does not exist in database');
-            }
-          }
+        }
+        if(!userFound){
+            //Display error
+            console.log('Could not find user in db');
+        } 
     }
-      return userFound;
+    return userFound;
 }
 
-async function addUserToDb(user:User) {
-    console.log("ADDING USER TO DB");
+async function addUserToDb(user: User) {
+    const users = await getAllUsers();
     let index: number = 0;
+    if (users !== null) {
+        index = users.length;
+    }
+
     const url: string = `https://js2-social-media-default-rtdb.europe-west1.firebasedatabase.app/users/${index}.json`;
     const init = {
         method: 'PUT',
         body: JSON.stringify(user),
-        headers:{
+        headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
     }
@@ -62,4 +66,4 @@ async function addUserToDb(user:User) {
     console.log(data);
 }
 
-export { findUserInDb, addUserToDb};
+export { findUserInDb, addUserToDb };
