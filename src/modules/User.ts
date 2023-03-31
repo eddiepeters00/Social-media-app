@@ -1,9 +1,9 @@
 export class User{
     constructor(
-        private readonly name:string,
-        private readonly userName:string,
-        private readonly password:string,
         private readonly imgUrl:string,
+        private readonly name:string,
+        private readonly password:string,
+        private readonly userName:string,
         private readonly posts: Object[] = [{}]
     ){}
 
@@ -21,5 +21,13 @@ export class User{
 
     getImgUrl(){
         return this.imgUrl;
+    }
+
+    getInfo(){
+        return {
+            name: this.name,
+            userName: this.userName,
+            imgUrl: this.imgUrl
+        }
     }
 }

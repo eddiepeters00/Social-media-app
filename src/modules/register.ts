@@ -1,5 +1,5 @@
-import { User } from "../modules/User";
 import { findUserInDb, addUserToDb } from "../modules/firebase";
+import { isEmpty } from "../index";
 
 type UserInput = {
     [key: string]: string;
@@ -32,10 +32,9 @@ registerForm.addEventListener('submit', e => {
 
 //Check if user exists in db
 async function registerHandler(userObj: UserInput) {
-    const found: boolean = await findUserInDb(userObj);
-    if (!found) {
-        const user: User = createNewUser(userObj);
-        addUserToDb(user);
+    const foundUser: Object = await findUserInDb(userObj);
+    if (!isEmpty(foundUser)) {
+        addUserToDb(userObj);
 
         //Add animation? 
         setTimeout(() => {
@@ -47,8 +46,5 @@ async function registerHandler(userObj: UserInput) {
     }
 }
 
-function createNewUser(userObj: UserInput) {
-    const user = new User(userObj.name, userObj.email, userObj.password, userObj.imgUrl);
-    console.log(user);
-    return user;
-}
+
+    

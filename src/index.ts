@@ -23,16 +23,30 @@ signInForm.addEventListener('submit', e => {
 
 //Check if user exists in db
 async function logInHandler(userObj: UserInput) {
-    const found: boolean = await findUserInDb(userObj);
-    if (!found) {
+    const foundUser: Object = await findUserInDb(userObj);
+    if (!isEmpty(foundUser)) {
         //Prompt message to user
-        console.log('Error');        
+        console.log('Error');
     } else {
         console.log('Logging in');
-        
+        //Save userInfo to localStorage
+        localStorage.setItem('user', JSON.stringify(Object.values(foundUser)));
+
         //Add animation? 
         setTimeout(() => {
             location.assign("./html/profile.html");
         }, 1000);
     }
 }
+
+//Checks if an object is empty
+function isEmpty(obj: Object): boolean {
+    for (const key in obj) {
+        if (Object.prototype.hasOwnProperty(key)) 
+        return false;
+    }
+    return true;
+}
+
+
+export {isEmpty};
