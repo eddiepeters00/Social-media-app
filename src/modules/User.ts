@@ -1,7 +1,7 @@
 export class User{
     constructor(
         private readonly name:string,
-        private readonly email:string,
+        private readonly userName:string,
         private readonly password:string,
         private readonly imgUrl:string,
         private readonly posts: Object[] = [{}]
@@ -12,7 +12,7 @@ export class User{
     }
 
     getEmail(){
-        return this.email;
+        return this.userName;
     }
 
     getPassword(){
