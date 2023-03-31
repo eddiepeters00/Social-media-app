@@ -66,4 +66,4 @@ async function addUserToDb(user: User) {
     console.log(data);
 }
 
-export { findUserInDb, addUserToDb };
+export { findUserInDb, addUserToDb, getAllUsers };
