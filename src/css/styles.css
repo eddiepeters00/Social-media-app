@@ -1,3 +1,10 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
 .flex-container{
     display: flex;
     flex-direction: column;
@@ -11,3 +18,74 @@
     flex-direction: column;
     
 }
+
+/*Profile - header*/
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem;
+}
+
+header span{
+    font-size: 2rem;
+}
+
+.menu-profile-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 4rem;
+}
+
+.menu-profile-container div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    color: #818181;
+}
+
+.side-nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+  }
+  
+  .side-nav a , .side-nav h3{
+    text-decoration: none;
+    padding: 1rem;
+    font-size: 1.25rem;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .side-nav a:hover {
+    color: #f1f1f1;
+  }
+  
+  .side-nav #close-btn {
+    font-size: 2rem;
+  }
+
+  .profile-hero-section{
+
+  }
+
+  .profile-img{
+    max-width: 100%;
+    border-radius: 50%;
+    width: 10%;
+    width: 25%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+

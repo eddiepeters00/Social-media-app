@@ -33,7 +33,7 @@ async function logInHandler(userObj: UserInput) {
         //Add animation? 
         setTimeout(() => {
             console.log('GOING TO ANOTHER PAGE')
-            location.assign("/src/html/userHomePage.html");
+            location.assign("./html/profile.html");
         }, 1000);
     }
 }
