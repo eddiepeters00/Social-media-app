@@ -19,8 +19,6 @@ const signInForm = document.querySelector('form') as HTMLFormElement;
         });
     });
 
-
-
 //Check if user exists in db
 async function logInHandler(userObj: UserInput) {
     const foundUser: Object = await findUserInDb(userObj);
@@ -29,7 +27,6 @@ async function logInHandler(userObj: UserInput) {
         console.log('Error');
     } else {
         console.log('Logging in');
-        //Save userInfo to localStorage
         localStorage.setItem('user', JSON.stringify(Object.values(foundUser)));
 
         //Add animation? 
