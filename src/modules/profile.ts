@@ -23,6 +23,46 @@ function loadContent(){
         const userInfo : string[] = JSON.parse(storedUserInfo);
         const user : User = new User(userInfo[0], userInfo[1], userInfo[2], userInfo[3]);
         console.log(user);
+
+        //Display profileName
+        const profileName = document.getElementById('profile-name') as HTMLHeadingElement;
+        profileName.innerText = user.getUserName();
+
+        const menuProfileName = document.getElementById('menu-profile-name') as HTMLHeadingElement;
+        menuProfileName.innerText = user.getUserName();
+
+        //Display profileImg
+        const profileImg = document.querySelectorAll('.profile-img') as NodeListOf<HTMLImageElement>;
+            for(let i = 0; i < profileImg.length; i++){
+                placeImg(profileImg[i], user);
+            }
+
+        //Display posts
+        if(user.getPosts().length !== 0){
+            user.getPosts().forEach(post => {
+                const postSection = document.getElementById('posts-container') as HTMLDivElement;
+                const postContainer = document.createElement('div') as HTMLDivElement;
+                postContainer.classList.add('post');
+                postSection.append(postContainer);
+
+                const postInfoContainer = document.createElement('div');
+                postInfoContainer.classList.add('post-info');
+                const postName = document.createElement('span') as HTMLSpanElement;
+                const postDate = document.createElement('span') as HTMLSpanElement;
+                //postName.innerText = post.name;
+                //postDate.innerText = post.date;
+                postInfoContainer.append(postName, postDate);
+
+                const postMessageContainer = document.createElement('div') as HTMLDivElement;
+                postMessageContainer.classList.add('post-message');
+                const postMessage = document.createElement('p') as HTMLParagraphElement;
+                postMessage.classList.add('message');
+                //postMessage.innerText = post.message;
+                postMessageContainer.append(postMessage);
+                postContainer.append(postMessageContainer);
+            });
+        }
+
     }
 }
 
@@ -49,3 +89,34 @@ async function loadUsers(){
     })
 }
 
+
+function placeImg(imgElement: HTMLImageElement, user: User):void{
+    const url = user.getImgUrl();
+    let imgUrl: URL = new URL('../images/angry-computer.jpg', import.meta.url);
+
+    switch(url){
+        case '../images/angry-computer.jpg':
+            imgUrl = new URL('../images/angry-computer.jpg', import.meta.url);
+            imgElement.src = imgUrl.href;
+            break;
+
+        case '../images/crazy-eddie.jpg':
+            imgUrl = new URL('../images/angry-computer.jpg', import.meta.url);
+            imgElement.src = imgUrl.href;
+            break;
+
+        case '../images/pixeledDog.jpg':
+            imgUrl = new URL('../images/angry-computer.jpg', import.meta.url);
+            imgElement.src = imgUrl.href;
+            break;
+
+        default:
+            console.log('URL is not recognized');
+            break;
+    }
+}
+
+/**TODO
+ * Change images
+ * display posts
+ */

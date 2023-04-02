@@ -4,11 +4,6 @@ type UserInput = {
     [key: string]: string;
 };
 
-type UserValidation = {
-    userName: string,
-    password: string
-};
-
 type UserInfo = {
     name: string,
     userName: string,
@@ -33,7 +28,7 @@ async function getAllUsers(): Promise<UserInfo[]> {
 
 //Checks if the new users password and email matches an registered users email and password
 //Return true if its a match
-function validateUser(users: UserInfo[], userObj: UserInput): Object | UserInfo {
+function validateUser(users: UserInfo[], userObj: UserInput): Object{
     let userFound = {};
 
     console.log('VALIDATION');

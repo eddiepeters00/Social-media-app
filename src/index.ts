@@ -5,20 +5,20 @@ type UserInput = {
 }
 
 const userObj: UserInput = {};
-
+console.log('Start');
 //Get userinputs from register-form
-const signInForm = document.querySelector('#sign-in-form') as HTMLFormElement;
-signInForm.addEventListener('submit', e => {
-    e.preventDefault();
-    document.querySelectorAll('input').forEach(input => {
-        if (input.value !== null && input.value !== '') {
-            userObj[input.name] = input.value;
-        }
+const signInForm = document.querySelector('form') as HTMLFormElement;
+    signInForm.addEventListener('submit', e => {
+        e.preventDefault();
+        document.querySelectorAll('input').forEach(input => {
+            if (input.value !== null && input.value !== '') {
+                userObj[input.name] = input.value;
+            }
+            logInHandler(userObj);
+            return false;
+        });
     });
 
-    logInHandler(userObj);
-    return false;
-});
 
 
 //Check if user exists in db

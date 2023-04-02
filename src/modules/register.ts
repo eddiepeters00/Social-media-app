@@ -33,7 +33,7 @@ registerForm.addEventListener('submit', e => {
 //Check if user exists in db
 async function registerHandler(userObj: UserInput) {
     const foundUser: Object = await findUserInDb(userObj);
-    if (!isEmpty(foundUser)) {
+    if (isEmpty(foundUser)) {
         addUserToDb(userObj);
 
         //Add animation? 
