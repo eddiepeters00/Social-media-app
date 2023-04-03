@@ -1,43 +1,41 @@
-type Post = {
-    sender: string,
-    date: string,
-    message: string
-}
-
-export class User{
+export class User {
     constructor(
-        private readonly imgUrl:string,
-        private readonly name:string,
-        private readonly password:string,
-        private readonly userName:string,
-        private readonly posts: Post[] = []
-    ){}
+        private readonly imgUrl: string,
+        private readonly name: string,
+        private readonly password: string,
+        private readonly userName: string,
+        private posts: Post[] = []
+    ) {}
 
-    getName(){
+    getName() {
         return this.name;
     }
 
-    getUserName(){
+    getUserName() {
         return this.userName;
     }
 
-    getPassword(){
+    getPassword() {
         return this.password;
     }
 
-    getImgUrl(){
+    getImgUrl() {
         return this.imgUrl;
     }
 
-    getPosts(){
+    getPosts() {
         return this.posts;
     }
 
-    addPost(post: Post){
-        //Lägg till post-objektet i this.posts
+    setPosts(posts: Post[]){
+        this.posts = posts;
     }
 
-    removePost(post: Post){
+    addPost(post: Post) {
+        this.posts.push(post);
+    }
+
+    removePost(post: Post) {
         //Ta bort post-objektet i this.posts
     }
 }

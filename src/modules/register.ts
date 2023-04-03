@@ -1,11 +1,8 @@
 import { findUserInDb, addUserToDb } from "../modules/firebase";
 import { isEmpty } from "../index";
 
-type UserInput = {
-    [key: string]: string;
-}
-
 const userObj: UserInput = {};
+userObj['posts'] = '';
 
 document.querySelectorAll('.image-select img').forEach(img => {
     img.addEventListener('click', () => {

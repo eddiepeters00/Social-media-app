@@ -1,17 +1,5 @@
 import { User } from "./User";
 
-type UserInput = {
-    [key: string]: string;
-};
-
-type UserInfo = {
-    name: string,
-    userName: string,
-    password: string
-    imgUrl: string
-    posts: string[]
-}
-
 async function findUserInDb(userObj: UserInput): Promise<boolean | Object> {
     const users = await getAllUsers();
     console.log(users);
@@ -28,7 +16,7 @@ async function getAllUsers(): Promise<UserInfo[]> {
 
 //Checks if the new users password and email matches an registered users email and password
 //Return true if its a match
-function validateUser(users: UserInfo[], userObj: UserInput): Object{
+function validateUser(users: UserInfo[], userObj: UserInput): Object {
     let userFound = {};
 
     console.log('VALIDATION');
@@ -41,7 +29,7 @@ function validateUser(users: UserInfo[], userObj: UserInput): Object{
             }
         }
     }
-    else{
+    else {
         console.log('user not found');
     }
     return userFound;
@@ -68,4 +56,5 @@ async function addUserToDb(userObj: UserInput) {
     console.log(data);
 }
 
-export { findUserInDb, addUserToDb, getAllUsers };
+
+export { findUserInDb, addUserToDb, getAllUsers};
