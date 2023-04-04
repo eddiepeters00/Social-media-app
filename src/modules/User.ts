@@ -33,6 +33,8 @@ export class User {
 
     addPost(post: Post) {
         this.posts.push(post);
+        //add this post to db
+    
     }
 
     removePost(post: Post) {

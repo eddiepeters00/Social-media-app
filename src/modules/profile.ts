@@ -1,4 +1,4 @@
-import { getAllUsers } from "../modules/firebase";
+import { getAllUsers, getUserIndex, getPostsFromDb, addPostsToDb } from "../modules/firebase";
 import { User } from "./User";
 
 const sideNav = document.getElementById('side-nav') as HTMLDivElement;
@@ -30,13 +30,13 @@ const user = createNewUser();
 console.log(user);
 if (user !== undefined) {
     displayContent(user);
+    loadContent(user);
 }
 
-loadContent();
 
 //Eventlistener on postBtn
 const postForm = document.getElementById('post-form') as HTMLFormElement;
-postForm.addEventListener('submit', e => {
+postForm.addEventListener('submit', async e => {
     e.preventDefault();
     const message = document.getElementById('message-input') as HTMLInputElement;
     if (user !== undefined) {
@@ -48,9 +48,13 @@ postForm.addEventListener('submit', e => {
 
         message.value = '';
         user.addPost(postObj);
+        
+        const userIndex = await getUserIndex(user);
+        addPostsToDb(userIndex, user.getPosts());
         displayPosts(user);
     }
 });
+
 
 function displayContent(user: User) {
     //Display profileName
@@ -72,37 +76,38 @@ function displayContent(user: User) {
 
 
 //Loads content from db
-async function loadContent() {
+async function loadContent(user: User) {
+    const userIndex = await getUserIndex(user);
+    if(userIndex !== null && userIndex !== undefined){
+        console.log(userIndex);
+        const userPosts = await getPostsFromDb(userIndex);
+        const postsArray: Post[] = [];
+        userPosts.forEach(post =>{
+            postsArray.push(post);
+        });
+
+        user.setPosts(postsArray);
+        displayPosts(user);
+    }
+
     const allUsers = await getAllUsers();
-    console.log(allUsers);
+    for (let i: number = 0; i < allUsers.length; i++) {
 
-        for (let i: number = 0; i < allUsers.length; i++) {
-            if (user!== undefined && allUsers[i].userName === user.getUserName() && allUsers[i].password === user.getPassword()) {
-                const postUrl = `https://js2-social-media-default-rtdb.europe-west1.firebasedatabase.app/users/${i}/posts.json`;
-                const response = await fetch(postUrl);
-                const data = await response.json();
-                console.log(data);
-                if(data !== null){
-                    user.setPosts(data);
-                    displayPosts(user);
-                }
-            }
+        //Developers list
+        const userList = document.getElementById('user-list');
+        const userLink = document.createElement('a') as HTMLElement;
+        userLink.innerText = allUsers[i].userName;
 
-            //Developers list
-            const userList = document.getElementById('user-list');
-            const userLink = document.createElement('a') as HTMLElement;
-            userLink.innerText = allUsers[i].userName;
-    
-            const userInfo = {
-                name: allUsers[i].name,
-                userName: allUsers[i].userName,
-                imgUrl: allUsers[i].imgUrl,
-                posts: allUsers[i].posts
-            };
-    
-            userLink.ariaValueText = JSON.stringify(userInfo);
-            userList?.appendChild(userLink);
-        }
+        const userInfo = {
+            name: allUsers[i].name,
+            userName: allUsers[i].userName,
+            imgUrl: allUsers[i].imgUrl,
+            posts: allUsers[i].posts
+        };
+
+        userLink.ariaValueText = JSON.stringify(userInfo);
+        userList?.appendChild(userLink);
+    }
 }
 
 
