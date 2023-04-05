@@ -14,8 +14,8 @@ closeBtn.addEventListener('click', () => {
 });
 
 //Creating a new User-object
-function createNewUser() {
-    const storedUserInfo = localStorage.getItem('user');
+function createNewUser(localUser: string) {
+    const storedUserInfo = localStorage.getItem(localUser);
     console.log(storedUserInfo);
     if (storedUserInfo !== null) {
         const userInfo: string[] = JSON.parse(storedUserInfo);
@@ -26,7 +26,7 @@ function createNewUser() {
     return;
 }
 
-const user = createNewUser();
+const user = createNewUser('user');
 console.log(user);
 if (user !== undefined) {
     displayContent(user);
@@ -48,7 +48,7 @@ postForm.addEventListener('submit', async e => {
 
         message.value = '';
         user.addPost(postObj);
-        
+
         const userIndex = await getUserIndex(user);
         addPostsToDb(userIndex, user.getPosts());
         displayPosts(user);
@@ -78,11 +78,11 @@ function displayContent(user: User) {
 //Loads content from db
 async function loadContent(user: User) {
     const userIndex = await getUserIndex(user);
-    if(userIndex !== null && userIndex !== undefined){
+    if (userIndex !== null && userIndex !== undefined) {
         console.log(userIndex);
         const userPosts = await getPostsFromDb(userIndex);
         const postsArray: Post[] = [];
-        userPosts.forEach(post =>{
+        userPosts.forEach(post => {
             postsArray.push(post);
         });
 
@@ -95,18 +95,36 @@ async function loadContent(user: User) {
 
         //Developers list
         const userList = document.getElementById('user-list');
-        const userLink = document.createElement('a') as HTMLElement;
-        userLink.innerText = allUsers[i].userName;
+        if (userList !== null) {
+            const userLink = document.createElement('a') as HTMLAnchorElement;
+            userLink.innerText = allUsers[i].userName;
 
-        const userInfo = {
-            name: allUsers[i].name,
-            userName: allUsers[i].userName,
-            imgUrl: allUsers[i].imgUrl,
-            posts: allUsers[i].posts
-        };
+            const userInfo = {
+                name: allUsers[i].name,
+                userName: allUsers[i].userName,
+                imgUrl: allUsers[i].imgUrl,
+                posts: allUsers[i].posts
+            };
 
-        userLink.ariaValueText = JSON.stringify(userInfo);
-        userList?.appendChild(userLink);
+            userLink.ariaValueText = JSON.stringify(userInfo);
+            userList.appendChild(userLink);
+
+            userLink.addEventListener('click', () => {
+                if(userLink.ariaValueText){
+                    console.log(userLink.ariaValueText);
+                    const visitUserObj = JSON.parse(userLink.ariaValueText);
+                    localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
+                    console.log(localStorage.getItem('visitUser'));
+                }
+
+                const user = createNewUser('visitUser');
+                console.log(user);
+                if (user !== undefined) {
+                    displayContent(user);
+                    loadContent(user);
+                }
+            });
+        }
     }
 }
 
