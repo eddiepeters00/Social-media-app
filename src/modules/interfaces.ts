@@ -3,10 +3,10 @@ interface UserInput{
 };
 
 interface UserInfo{
-    readonly imgUrl: string,
     readonly name: string,
-    readonly password: string,
     readonly userName: string,
+    readonly password: string,
+    readonly imgUrl: string,
     posts: Post[]
 }
 

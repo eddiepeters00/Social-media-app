@@ -49,6 +49,12 @@ header span{
     font-size: 1.25rem;
 }
 
+.menu-profile-container a{
+  font-size: 1rem;
+  color: #818181;
+  text-decoration: none;
+}
+
 .side-nav {
     height: 100%;
     width: 0%;
@@ -60,8 +66,23 @@ header span{
     overflow-x: hidden;
     transition: 0.5s;
   }
+
+  #close-btn{
+    padding: .5rem;
+    color: #f1f1f1;
+  }
+
+  #user-list a{
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    padding-left: .5rem;
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    color: #818181;
+  }
   
-  .side-nav a , .side-nav h3, .side-nav h4{
+  .side-nav .profile-options, .side-nav h4{
     display: flex;
     flex-direction: column;
     text-decoration: none;

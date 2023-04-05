@@ -13,24 +13,34 @@ closeBtn.addEventListener('click', () => {
     sideNav.style.width = "0";
 });
 
+
 //Creating a new User-object
 function createNewUser(localUser: string) {
     const storedUserInfo = localStorage.getItem(localUser);
     console.log(storedUserInfo);
     if (storedUserInfo !== null) {
-        const userInfo: string[] = JSON.parse(storedUserInfo);
-        const user: User = new User(userInfo[0], userInfo[1], userInfo[2], userInfo[3]);
-        console.log(user);
-        return user;
+        if(localUser === 'user'){
+            const userInfo: string[] = JSON.parse(storedUserInfo);
+            const user: User = new User(userInfo[0], userInfo[1], userInfo[2], userInfo[3]);
+            console.log(user);
+            return user;
+        }else{
+            const userInfo: string[] = JSON.parse(storedUserInfo);
+            const user: User = new User(userInfo[2], userInfo[0], 'password', userInfo[1]);
+            console.log(user);
+            return user;
+        }
     }
     return;
 }
+
 
 const user = createNewUser('user');
 console.log(user);
 if (user !== undefined) {
     displayContent(user);
-    loadContent(user);
+    getUserPosts(user);
+    loadContent();
 }
 
 
@@ -42,7 +52,7 @@ postForm.addEventListener('submit', async e => {
     if (user !== undefined) {
         const postObj: Post = {
             sender: user.getUserName(),
-            date: new Date().toUTCString(),
+            date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
             message: message.value,
         }
 
@@ -74,9 +84,7 @@ function displayContent(user: User) {
     displayPosts(user);
 }
 
-
-//Loads content from db
-async function loadContent(user: User) {
+async function getUserPosts(user: User){
     const userIndex = await getUserIndex(user);
     if (userIndex !== null && userIndex !== undefined) {
         console.log(userIndex);
@@ -89,13 +97,17 @@ async function loadContent(user: User) {
         user.setPosts(postsArray);
         displayPosts(user);
     }
+}
 
+
+//Loads content from db
+async function loadContent() {
     const allUsers = await getAllUsers();
     for (let i: number = 0; i < allUsers.length; i++) {
 
         //Developers list
         const userList = document.getElementById('user-list');
-        if (userList !== null) {
+        if (userList !== null && userList.children.length < allUsers.length){
             const userLink = document.createElement('a') as HTMLAnchorElement;
             userLink.innerText = allUsers[i].userName;
 
@@ -117,12 +129,13 @@ async function loadContent(user: User) {
                     console.log(localStorage.getItem('visitUser'));
                 }
 
-                const user = createNewUser('visitUser');
-                console.log(user);
-                if (user !== undefined) {
-                    displayContent(user);
-                    loadContent(user);
-                }
+                //Visit another persons page
+                /**TODO
+                 * Redirect to another html - exactly like this one but without the write a post section
+                 * Send information about the clicked user to the new page and let the menus 'My profile section' always redirect to profile.html
+                 */
+
+                location.assign('./visitProfile.html');
             });
         }
     }
@@ -154,6 +167,7 @@ function placeImg(imgElement: HTMLImageElement, user: User): void {
             break;
     }
 }
+
 
 function displayPosts(user: User) {
     if (user.getPosts().length !== 0) {
