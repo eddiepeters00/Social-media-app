@@ -1,4 +1,6 @@
 import { User } from "./User";
+import { Post, UserInfo, UserInput } from "./interfaces";
+
 
 async function findUserInDb(userObj: UserInput): Promise<boolean | Object> {
     const users = await getAllUsers();

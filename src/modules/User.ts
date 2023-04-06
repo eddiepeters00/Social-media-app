@@ -1,3 +1,5 @@
+import { Post } from "./interfaces";
+
 export class User {
     constructor(
         private readonly imgUrl: string,

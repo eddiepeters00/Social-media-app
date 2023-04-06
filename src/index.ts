@@ -1,8 +1,5 @@
 import { findUserInDb } from "./modules/firebase";
-
-type UserInput = {
-    [key: string]: string;
-}
+import { UserInput } from "./modules/interfaces";
 
 const userObj: UserInput = {};
 console.log('Start');
@@ -10,17 +7,19 @@ console.log('Start');
 const signInForm = document.querySelector('form') as HTMLFormElement;
     signInForm.addEventListener('submit', e => {
         e.preventDefault();
+
         document.querySelectorAll('input').forEach(input => {
             if (input.value !== null && input.value !== '') {
                 userObj[input.name] = input.value;
             }
             logInHandler(userObj);
-            return false;
         });
     });
 
 //Check if user exists in db
 async function logInHandler(userObj: UserInput) {
+    console.log('Start');
+
     const foundUser: Object = await findUserInDb(userObj);
     if (!isEmpty(foundUser)) {
         //Prompt message to user

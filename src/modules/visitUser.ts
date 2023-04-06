@@ -1,6 +1,6 @@
-import { getAllUsers, getUserIndex, getPostsFromDb, addPostsToDb } from "../modules/firebase";
-import { createNewUser, Post} from "./interfaces";
+import { createNewUser, Post } from "./interfaces";
 import { User } from "./User";
+import { getAllUsers, getUserIndex, getPostsFromDb } from "./firebase";
 
 const sideNav = document.getElementById('side-nav') as HTMLDivElement;
 const openBtn = document.getElementById('open-btn') as HTMLSpanElement;
@@ -14,69 +14,12 @@ closeBtn.addEventListener('click', () => {
     sideNav.style.width = "0";
 });
 
-
-const user = createNewUser('user');
+const user = createNewUser('visitUser');
 console.log(user);
 if (user !== undefined) {
     displayContent(user);
     getUserPosts(user)
-    .then(loadContent);
-}
-
-
-//Eventlistener on postBtn
-const postForm = document.getElementById('post-form') as HTMLFormElement;
-postForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const message = document.getElementById('message-input') as HTMLInputElement;
-    if (user !== undefined) {
-        const postObj: Post = {
-            sender: user.getUserName(),
-            date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
-            message: message.value,
-        }
-
-        message.value = '';
-        user.addPost(postObj);
-
-        const userIndex = await getUserIndex(user);
-        addPostsToDb(userIndex, user.getPosts());
-        displayPosts(user);
-    }
-});
-
-
-function displayContent(user: User) {
-    //Display profileName
-    const profileName = document.getElementById('profile-name') as HTMLHeadingElement;
-    profileName.innerText = user.getUserName();
-
-    const menuProfileName = document.getElementById('menu-profile-name') as HTMLHeadingElement;
-    menuProfileName.innerText = user.getUserName();
-
-    //Display profileImg
-    const profileImg = document.querySelectorAll('.profile-img') as NodeListOf<HTMLImageElement>;
-    for (let i = 0; i < profileImg.length; i++) {
-        placeImg(profileImg[i], user);
-    }
-
-    //Displays all posts from this user
-    displayPosts(user);
-}
-
-async function getUserPosts(user: User){
-    const userIndex = await getUserIndex(user);
-    if (userIndex !== null && userIndex !== undefined) {
-        console.log(userIndex);
-        const userPosts = await getPostsFromDb(userIndex);
-        const postsArray: Post[] = [];
-        userPosts.forEach(post => {
-            postsArray.push(post);
-        });
-
-        user.setPosts(postsArray);
-        displayPosts(user);
-    }
+        .then(loadContent);
 }
 
 
@@ -87,7 +30,7 @@ async function loadContent() {
 
         //Developers list
         const userList = document.getElementById('user-list');
-        if (userList !== null && userList.children.length < allUsers.length){
+        if (userList !== null && userList.children.length < allUsers.length) {
             const userLink = document.createElement('a') as HTMLAnchorElement;
             userLink.innerText = allUsers[i].userName;
 
@@ -102,22 +45,58 @@ async function loadContent() {
             userList.appendChild(userLink);
 
             userLink.addEventListener('click', () => {
-                if(userLink.ariaValueText){
+                if (userLink.ariaValueText) {
                     console.log(userLink.ariaValueText);
                     const visitUserObj = JSON.parse(userLink.ariaValueText);
                     localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
                     console.log(localStorage.getItem('visitUser'));
                 }
 
-                //Visit another persons page
-                /**TODO
-                 * Send information about the clicked user to the new page and let the menus 'My profile section' always redirect to profile.html
-                 */
-
                 location.assign('./visitProfile.html');
 
             });
         }
+    }
+}
+
+function displayContent(user: User) {
+    console.log(localStorage.getItem('user'));
+    const loggedInUser = localStorage.getItem('user');
+    if (loggedInUser !== null) {
+        const loggedInuserObject = JSON.parse(loggedInUser);
+        console.log(loggedInuserObject);
+
+        //Display profileName
+        const profileName = document.getElementById('profile-name') as HTMLHeadingElement;
+        profileName.innerText = user.getUserName();
+
+        const menuProfileName = document.getElementById('menu-profile-name') as HTMLHeadingElement;
+        menuProfileName.innerText = loggedInuserObject[1];
+
+        //Display profileImg
+        //I need to change this so images in menu and profile are different
+        const profileImg = document.querySelectorAll('.profile-img') as NodeListOf<HTMLImageElement>;
+        for (let i = 0; i < profileImg.length; i++) {
+            placeImg(profileImg[i], user);
+        }
+    }
+
+    //Displays all posts from this user
+    displayPosts(user);
+}
+
+async function getUserPosts(user: User) {
+    const userIndex = await getUserIndex(user);
+    if (userIndex !== null && userIndex !== undefined) {
+        console.log(userIndex);
+        const userPosts = await getPostsFromDb(userIndex);
+        const postsArray: Post[] = [];
+        userPosts.forEach(post => {
+            postsArray.push(post);
+        });
+
+        user.setPosts(postsArray);
+        displayPosts(user);
     }
 }
 
@@ -178,9 +157,3 @@ function displayPosts(user: User) {
         });
     }
 }
-
-/**TODO
- * Change images
- */
-
-export {createNewUser}
