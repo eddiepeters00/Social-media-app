@@ -95,5 +95,22 @@ async function addUserToDb(userObj: UserInput) {
     console.log(data);
 }
 
+async function deleteAccount(user: User){
+    const index = await getUserIndex(user);
+    const allUsers = await getAllUsers();
+    const url = `https://js2-social-media-default-rtdb.europe-west1.firebasedatabase.app/users/${index}.json`;
+    const init = {
+        method: 'DELETE',
+        body: JSON.stringify(''),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    }
+
+    const response = await fetch(url, init);
+    const data = response.json();
+    console.log('Removing ' + data);
+}
+
 
 export { findUserInDb, addUserToDb, getAllUsers, getUserIndex, getPostsFromDb, addPostsToDb };

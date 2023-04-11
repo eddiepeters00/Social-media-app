@@ -155,5 +155,7 @@ function displayPosts(user: User) {
             postMessageContainer.append(postMessage);
             postContainer.append(postMessageContainer);
         });
+    }else{
+        console.log('User has no posts');
     }
 }

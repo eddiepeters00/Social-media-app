@@ -3,6 +3,8 @@ import { UserInput } from "./modules/interfaces";
 
 const userObj: UserInput = {};
 console.log('Start');
+
+
 //Get userinputs from register-form
 const signInForm = document.querySelector('form') as HTMLFormElement;
     signInForm.addEventListener('submit', e => {
@@ -11,14 +13,15 @@ const signInForm = document.querySelector('form') as HTMLFormElement;
         document.querySelectorAll('input').forEach(input => {
             if (input.value !== null && input.value !== '') {
                 userObj[input.name] = input.value;
+                logInHandler(userObj);
             }
-            logInHandler(userObj);
         });
     });
 
+
 //Check if user exists in db
 async function logInHandler(userObj: UserInput) {
-    console.log('Start');
+    console.log('Handle log in');
 
     const foundUser: Object = await findUserInDb(userObj);
     if (!isEmpty(foundUser)) {
@@ -34,6 +37,7 @@ async function logInHandler(userObj: UserInput) {
         }, 1000);
     }
 }
+
 
 //Checks if an object is empty
 function isEmpty(obj: Object): boolean {

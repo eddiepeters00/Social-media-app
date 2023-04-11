@@ -109,13 +109,7 @@ async function loadContent() {
                     console.log(localStorage.getItem('visitUser'));
                 }
 
-                //Visit another persons page
-                /**TODO
-                 * Send information about the clicked user to the new page and let the menus 'My profile section' always redirect to profile.html
-                 */
-
                 location.assign('./visitProfile.html');
-
             });
         }
     }
