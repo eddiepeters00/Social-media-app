@@ -9,7 +9,6 @@ async function findUserInDb(userObj: UserInput): Promise<boolean | Object> {
 }
 
 
-//Fetch users from firebase
 async function getAllUsers(): Promise<UserInfo[]> {
     const url: string = 'https://js2-social-media-default-rtdb.europe-west1.firebasedatabase.app/users.json';
     const response = await fetch(url);
@@ -52,8 +51,6 @@ async function addPostsToDb(userIndex: number, posts: Post[]){
 }
 
 
-//Checks if the new users password and email matches an registered users email and password
-//Return true if its a match
 function validateUser(users: UserInfo[], userObj: UserInput): Object {
     let userFound = {};
 
@@ -94,6 +91,7 @@ async function addUserToDb(userObj: UserInput) {
     const data = response.json();
     console.log(data);
 }
+
 
 async function deleteAccount(user: User){
     const index = await getUserIndex(user);
