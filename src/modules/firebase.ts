@@ -20,13 +20,14 @@ async function getAllUsers(): Promise<UserInfo[]> {
 async function getUserIndex(user: User): Promise<any> {
     const allUsers = await getAllUsers();
     for (let i: number = 0; i < allUsers.length; i++) {
-        if (user !== undefined && allUsers[i].userName === user.getUserName() && allUsers[i].password === user.getPassword()) {
-            return i;
-        }
+      const currentUser = allUsers[i];
+      if (currentUser && user !== undefined && currentUser.userName === user.getUserName()) {
+        return i;
+      }
     }
-}
+  }
 
-async function getPostsFromDb(index: number): Promise<Post[]>{
+async function getPostsFromDb(index: number): Promise<Post[]> {
     console.log(index);
     const postUrl = `https://js2-social-media-default-rtdb.europe-west1.firebasedatabase.app/users/${index}/posts.json`;
     const response = await fetch(postUrl);
@@ -35,7 +36,7 @@ async function getPostsFromDb(index: number): Promise<Post[]>{
     return posts;
 }
 
-async function addPostsToDb(userIndex: number, posts: Post[]){
+async function addPostsToDb(userIndex: number, posts: Post[]) {
     const url = `https://js2-social-media-default-rtdb.europe-west1.firebasedatabase.app/users/${userIndex}/posts.json`;
     const init = {
         method: 'PUT',
@@ -53,14 +54,16 @@ async function addPostsToDb(userIndex: number, posts: Post[]){
 
 function validateUser(users: UserInfo[], userObj: UserInput): Object {
     let userFound = {};
-
+    console.log(users);
     console.log('VALIDATION');
     if (users !== null) {
         for (const user of users) {
-            if (user["userName"] === userObj["userName"] && user["password"] === userObj["password"]) {
-                console.log('User found!');
-                userFound = user;
-                console.log(userFound);
+            if(user!== null){
+                if (user["userName"] === userObj["userName"] && user["password"] === userObj["password"]) {
+                    console.log('User found!');
+                    userFound = user;
+                    console.log(userFound);
+                }
             }
         }
     }
@@ -93,22 +96,13 @@ async function addUserToDb(userObj: UserInput) {
 }
 
 
-async function deleteAccount(user: User){
+async function deleteAccount(user: User) {
     const index = await getUserIndex(user);
-    const allUsers = await getAllUsers();
     const url = `https://js2-social-media-default-rtdb.europe-west1.firebasedatabase.app/users/${index}.json`;
-    const init = {
+    fetch(url, {
         method: 'DELETE',
-        body: JSON.stringify(''),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
-        }
-    }
-
-    const response = await fetch(url, init);
-    const data = response.json();
-    console.log('Removing ' + data);
+    });
 }
 
 
-export { findUserInDb, addUserToDb, getAllUsers, getUserIndex, getPostsFromDb, addPostsToDb };
+export { findUserInDb, addUserToDb, getAllUsers, getUserIndex, getPostsFromDb, addPostsToDb, deleteAccount };

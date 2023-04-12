@@ -26,38 +26,36 @@ if (user !== undefined) {
 //Loads content from db
 async function loadContent() {
     const allUsers = await getAllUsers();
-    for (let i: number = 0; i < allUsers.length; i++) {
+    allUsers.forEach(user => {
+      const userList = document.getElementById('user-list');
+      if (userList !== null && userList.children.length < allUsers.length && user !== null) {
+        const userLink = document.createElement('a') as HTMLAnchorElement;
+        userLink.innerText = user.userName;
+        
+        const userInfo = {
+          name: user.name,
+          userName: user.userName,
+          imgUrl: user.imgUrl,
+          posts: user.posts
+        };
+  
+        userLink.ariaValueText = JSON.stringify(userInfo);
+        userList.appendChild(userLink);
+  
+        userLink.addEventListener('click', () => {
+          if(userLink.ariaValueText){
+            console.log(userLink.ariaValueText);
+            const visitUserObj = JSON.parse(userLink.ariaValueText);
+            localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
+            console.log(localStorage.getItem('visitUser'));
+          }
+  
+          location.assign('./visitProfile.html');
+        });
+      }
+    });
+  }
 
-        //Developers list
-        const userList = document.getElementById('user-list');
-        if (userList !== null && userList.children.length < allUsers.length) {
-            const userLink = document.createElement('a') as HTMLAnchorElement;
-            userLink.innerText = allUsers[i].userName;
-
-            const userInfo = {
-                name: allUsers[i].name,
-                userName: allUsers[i].userName,
-                imgUrl: allUsers[i].imgUrl,
-                posts: allUsers[i].posts
-            };
-
-            userLink.ariaValueText = JSON.stringify(userInfo);
-            userList.appendChild(userLink);
-
-            userLink.addEventListener('click', () => {
-                if (userLink.ariaValueText) {
-                    console.log(userLink.ariaValueText);
-                    const visitUserObj = JSON.parse(userLink.ariaValueText);
-                    localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
-                    console.log(localStorage.getItem('visitUser'));
-                }
-
-                location.assign('./visitProfile.html');
-
-            });
-        }
-    }
-}
 
 function displayContent(user: User) {
     console.log(localStorage.getItem('user'));
@@ -80,23 +78,24 @@ function displayContent(user: User) {
             placeImg(profileImg[i], user);
         }
     }
-
-    //Displays all posts from this user
-    displayPosts(user);
 }
 
 async function getUserPosts(user: User) {
     const userIndex = await getUserIndex(user);
+    console.log('USERINDEX', userIndex);
     if (userIndex !== null && userIndex !== undefined) {
         console.log(userIndex);
         const userPosts = await getPostsFromDb(userIndex);
-        const postsArray: Post[] = [];
-        userPosts.forEach(post => {
-            postsArray.push(post);
-        });
+        if (userPosts !== null) {
+            console.log('USERPOSTS', userPosts);
+            const postsArray: Post[] = [];
+            userPosts.forEach(post => {
+                postsArray.push(post);
+            });
 
-        user.setPosts(postsArray);
-        displayPosts(user);
+            user.setPosts(postsArray);
+            displayPosts(user);
+        }
     }
 }
 
@@ -155,7 +154,7 @@ function displayPosts(user: User) {
             postMessageContainer.append(postMessage);
             postContainer.append(postMessageContainer);
         });
-    }else{
+    } else {
         console.log('User has no posts');
     }
 }

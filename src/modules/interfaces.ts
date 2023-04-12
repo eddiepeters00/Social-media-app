@@ -25,9 +25,16 @@ export function createNewUser(localUser: string) {
     if (storedUserInfo !== null) {
         if(localUser === 'user'){
             const userInfo: string[] = JSON.parse(storedUserInfo);
-            const user: User = new User(userInfo[0], userInfo[1], userInfo[2], userInfo[4]);
-            console.log(user);
-            return user;
+            if(typeof userInfo[3] == 'object' || userInfo[3] === ''){
+                const user: User = new User(userInfo[0], userInfo[1], userInfo[2], userInfo[4]);
+                console.log(user);
+                return user;
+            }
+            else{
+                const user: User = new User(userInfo[0], userInfo[1], userInfo[2], userInfo[3]);
+                console.log(user);
+                return user;
+            }
         }else{
             const userInfo: string[] = JSON.parse(storedUserInfo);
             const user: User = new User(userInfo[2], userInfo[0], 'password', userInfo[1]);

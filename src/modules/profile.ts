@@ -1,4 +1,4 @@
-import { getAllUsers, getUserIndex, getPostsFromDb, addPostsToDb } from "../modules/firebase";
+import { getAllUsers, getUserIndex, getPostsFromDb, addPostsToDb, deleteAccount } from "../modules/firebase";
 import { createNewUser, Post} from "./interfaces";
 import { User } from "./User";
 
@@ -46,6 +46,18 @@ postForm.addEventListener('submit', async e => {
 });
 
 
+//EventListener on deleteAccount
+const deleteAccountBtn = document.getElementById('delete-account');
+if (deleteAccountBtn) {
+  deleteAccountBtn.addEventListener('click', () => {
+    console.log('DELETE ACCOUNT');
+    if(user !== null && user !== undefined){
+        deleteAccount(user);
+        location.assign('./index.html');
+    }
+  });
+}
+
 function displayContent(user: User) {
     //Display profileName
     const profileName = document.getElementById('profile-name') as HTMLHeadingElement;
@@ -69,13 +81,16 @@ async function getUserPosts(user: User){
     if (userIndex !== null && userIndex !== undefined) {
         console.log(userIndex);
         const userPosts = await getPostsFromDb(userIndex);
-        const postsArray: Post[] = [];
-        userPosts.forEach(post => {
-            postsArray.push(post);
-        });
-
-        user.setPosts(postsArray);
-        displayPosts(user);
+        if(Array.isArray(userPosts)){
+            const postsArray: Post[] = [];
+            userPosts.forEach(post => {
+                postsArray.push(post);
+            });
+            user.setPosts(postsArray);
+            displayPosts(user);
+        } else {
+            console.log("Error: userPosts is not an array");
+        }
     }
 }
 
@@ -83,37 +98,35 @@ async function getUserPosts(user: User){
 //Loads content from db
 async function loadContent() {
     const allUsers = await getAllUsers();
-    for (let i: number = 0; i < allUsers.length; i++) {
-
-        //Developers list
-        const userList = document.getElementById('user-list');
-        if (userList !== null && userList.children.length < allUsers.length){
-            const userLink = document.createElement('a') as HTMLAnchorElement;
-            userLink.innerText = allUsers[i].userName;
-
-            const userInfo = {
-                name: allUsers[i].name,
-                userName: allUsers[i].userName,
-                imgUrl: allUsers[i].imgUrl,
-                posts: allUsers[i].posts
-            };
-
-            userLink.ariaValueText = JSON.stringify(userInfo);
-            userList.appendChild(userLink);
-
-            userLink.addEventListener('click', () => {
-                if(userLink.ariaValueText){
-                    console.log(userLink.ariaValueText);
-                    const visitUserObj = JSON.parse(userLink.ariaValueText);
-                    localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
-                    console.log(localStorage.getItem('visitUser'));
-                }
-
-                location.assign('./visitProfile.html');
-            });
-        }
-    }
-}
+    allUsers.forEach(user => {
+      const userList = document.getElementById('user-list');
+      if (userList !== null && userList.children.length < allUsers.length && user !== null) {
+        const userLink = document.createElement('a') as HTMLAnchorElement;
+        userLink.innerText = user.userName;
+        
+        const userInfo = {
+          name: user.name,
+          userName: user.userName,
+          imgUrl: user.imgUrl,
+          posts: user.posts
+        };
+  
+        userLink.ariaValueText = JSON.stringify(userInfo);
+        userList.appendChild(userLink);
+  
+        userLink.addEventListener('click', () => {
+          if(userLink.ariaValueText){
+            console.log(userLink.ariaValueText);
+            const visitUserObj = JSON.parse(userLink.ariaValueText);
+            localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
+            console.log(localStorage.getItem('visitUser'));
+          }
+  
+          location.assign('./visitProfile.html');
+        });
+      }
+    });
+  }
 
 
 function placeImg(imgElement: HTMLImageElement, user: User): void {
