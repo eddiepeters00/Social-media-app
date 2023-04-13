@@ -27,34 +27,34 @@ if (user !== undefined) {
 async function loadContent() {
     const allUsers = await getAllUsers();
     allUsers.forEach(user => {
-      const userList = document.getElementById('user-list');
-      if (userList !== null && userList.children.length < allUsers.length && user !== null) {
-        const userLink = document.createElement('a') as HTMLAnchorElement;
-        userLink.innerText = user.userName;
-        
-        const userInfo = {
-          name: user.name,
-          userName: user.userName,
-          imgUrl: user.imgUrl,
-          posts: user.posts
-        };
-  
-        userLink.ariaValueText = JSON.stringify(userInfo);
-        userList.appendChild(userLink);
-  
-        userLink.addEventListener('click', () => {
-          if(userLink.ariaValueText){
-            console.log(userLink.ariaValueText);
-            const visitUserObj = JSON.parse(userLink.ariaValueText);
-            localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
-            console.log(localStorage.getItem('visitUser'));
-          }
-  
-          location.assign('./visitProfile.html');
-        });
-      }
+        const userList = document.getElementById('user-list');
+        if (userList !== null && userList.children.length < allUsers.length && user !== null) {
+            const userLink = document.createElement('a') as HTMLAnchorElement;
+            userLink.innerText = user.userName;
+
+            const userInfo = {
+                name: user.name,
+                userName: user.userName,
+                imgUrl: user.imgUrl,
+                posts: user.posts
+            };
+
+            userLink.ariaValueText = JSON.stringify(userInfo);
+            userList.appendChild(userLink);
+
+            userLink.addEventListener('click', () => {
+                if (userLink.ariaValueText) {
+                    console.log(userLink.ariaValueText);
+                    const visitUserObj = JSON.parse(userLink.ariaValueText);
+                    localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
+                    console.log(localStorage.getItem('visitUser'));
+                }
+
+                location.assign('./visitProfile.html');
+            });
+        }
     });
-  }
+}
 
 
 function displayContent(user: User) {
@@ -68,15 +68,22 @@ function displayContent(user: User) {
         const profileName = document.getElementById('profile-name') as HTMLHeadingElement;
         profileName.innerText = user.getUserName();
 
+        //Display profileImg
+        const profileImg = document.getElementById('profile-img') as HTMLImageElement;
+        const imgUrl: string = user.getImgUrl();
+        placeImg(profileImg, imgUrl);
+
+
+        //Display profileName in menu
         const menuProfileName = document.getElementById('menu-profile-name') as HTMLHeadingElement;
         menuProfileName.innerText = loggedInuserObject[1];
 
-        //Display profileImg
-        //I need to change this so images in menu and profile are different
-        const profileImg = document.querySelectorAll('.profile-img') as NodeListOf<HTMLImageElement>;
-        for (let i = 0; i < profileImg.length; i++) {
-            placeImg(profileImg[i], user);
-        }
+
+        //Display menuProfileImg
+        const menuImgUrl :string = loggedInuserObject[0];
+        const menuProfileImg = document.getElementById('menu-profile-img') as HTMLImageElement;
+        console.log(menuProfileImg);
+        placeImg(menuProfileImg, menuImgUrl);
     }
 }
 
@@ -100,23 +107,23 @@ async function getUserPosts(user: User) {
 }
 
 
-function placeImg(imgElement: HTMLImageElement, user: User): void {
-    const url = user.getImgUrl();
-    let imgUrl: URL = new URL('../images/angry-computer.jpg', import.meta.url);
+function placeImg(imgElement: HTMLImageElement, url: string): void {
+
+    let imgUrl: URL = new URL('../images/cat-profile.jpg', import.meta.url);
 
     switch (url) {
-        case '../images/angry-computer.jpg':
-            imgUrl = new URL('../images/angry-computer.jpg', import.meta.url);
+        case '../images/cat-profile.jpg':
+            imgUrl = new URL('../images/cat-profile.jpg', import.meta.url);
             imgElement.src = imgUrl.href;
             break;
 
-        case '../images/crazy-eddie.jpg':
-            imgUrl = new URL('../images/angry-computer.jpg', import.meta.url);
+        case '../images/mona-profile.jpg':
+            imgUrl = new URL('../images/mona-profile.jpg', import.meta.url);
             imgElement.src = imgUrl.href;
             break;
 
-        case '../images/pixeledDog.jpg':
-            imgUrl = new URL('../images/angry-computer.jpg', import.meta.url);
+        case '../images/thing-profile.jpg':
+            imgUrl = new URL('../images/thing-profile.jpg', import.meta.url);
             imgElement.src = imgUrl.href;
             break;
 

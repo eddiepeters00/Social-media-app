@@ -36,13 +36,11 @@ async function logInHandler(userObj: UserInput) {
 }
 
 
-//Checks if an object is empty
+//Returns true if object is empty
 function isEmpty(obj: Object): boolean {
-    for (const key in obj) {
-        if (Object.prototype.hasOwnProperty(key))
-            return false;
-    }
-    return true;
+    console.log('ISEMPTY', obj);
+    console.log(Object.keys(obj).length !== 0);
+      return Object.keys(obj).length !== 0;
 }
 
 

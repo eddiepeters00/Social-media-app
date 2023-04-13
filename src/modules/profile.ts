@@ -131,21 +131,21 @@ async function loadContent() {
 
 function placeImg(imgElement: HTMLImageElement, user: User): void {
     const url = user.getImgUrl();
-    let imgUrl: URL = new URL('../images/angry-computer.jpg', import.meta.url);
+    let imgUrl: URL = new URL('../images/cat-profile.jpg', import.meta.url);
 
     switch (url) {
-        case '../images/angry-computer.jpg':
-            imgUrl = new URL('../images/angry-computer.jpg', import.meta.url);
+        case '../images/cat-profile.jpg':
+            imgUrl = new URL('../images/cat-profile.jpg', import.meta.url);
             imgElement.src = imgUrl.href;
             break;
 
-        case '../images/crazy-eddie.jpg':
-            imgUrl = new URL('../images/angry-computer.jpg', import.meta.url);
+        case '../images/mona-profile.jpg':
+            imgUrl = new URL('../images/mona-profile.jpg', import.meta.url);
             imgElement.src = imgUrl.href;
             break;
 
-        case '../images/pixeledDog.jpg':
-            imgUrl = new URL('../images/angry-computer.jpg', import.meta.url);
+        case '../images/thing-profile.jpg':
+            imgUrl = new URL('../images/thing-profile.jpg', import.meta.url);
             imgElement.src = imgUrl.href;
             break;
 
@@ -154,7 +154,6 @@ function placeImg(imgElement: HTMLImageElement, user: User): void {
             break;
     }
 }
-
 
 function displayPosts(user: User) {
     if (user.getPosts().length !== 0) {
@@ -185,9 +184,5 @@ function displayPosts(user: User) {
         });
     }
 }
-
-/**TODO
- * Change images
- */
 
 export {createNewUser}

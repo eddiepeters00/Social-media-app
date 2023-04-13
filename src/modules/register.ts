@@ -31,12 +31,13 @@ registerForm.addEventListener('submit', e => {
 //Check if user exists in db
 async function registerHandler(userObj: UserInput) {
     const foundUser: Object = await findUserInDb(userObj);
-    if (isEmpty(foundUser)) {
+    console.log('HÄÄÄÄÄÄ',isEmpty(foundUser));
+    if (!isEmpty(foundUser)) {
         addUserToDb(userObj);
 
         //Add animation? 
         setTimeout(() => {
-            location.replace('/src/index.html');
+            location.replace('../index.html');
         }, 1000);
     } else {
         //Prompt message to user
