@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="./css/styles.css">
     <script src="./index.ts" type="module"></script>
-
+    <title>Document</title>
 </head>
 <body>
     <main class="flex-container place-content-center">
@@ -16,9 +15,13 @@
             <h3>By developers, For developers</h3>
         </div>
 
-            <a class="a-link" href="./html/login.html">Log in</a>
+            <form class="form-container" id="sign-in-form">
+                <input type="text" name="userName" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button>Sign In</button>
+            </form>
+
             <a class="a-link" href="./html/createAccount.html">Create a new account</a>
     </main>
-
 </body>
 </html>
