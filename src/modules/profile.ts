@@ -53,7 +53,7 @@ if (deleteAccountBtn) {
     console.log('DELETE ACCOUNT');
     if(user !== null && user !== undefined){
         deleteAccount(user);
-        location.replace('../index.html');
+        document.location.href="/";
     }
   });
 }
