@@ -1,5 +1,5 @@
-import { findUserInDb } from "./modules/firebase";
-import { UserInput } from "./modules/interfaces";
+import { findUserInDb } from "./firebase";
+import { UserInput } from "./interfaces";
 
 
 const userObj: UserInput = {};
