@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "parcel ./src/index.html ./src/html/createAccount.html ./src/html/profile.html ./src/html/visitProfile.html",
-    "build": "parcel build ./src/index.html ./src/html/createAccount.html ./src/html/profile.html ./src/html/visitProfile.html --dist-dir docs --public-url ./",
+    "build": "parcel build ./src/index.html ./src/html/createAccount.html ./src/html/profile.html ./src/html/visitProfile.html --dist-dir docs --public-url /FE22-js2-slutprojekt-eddie-peters/",
     "clean": "del-cli ./.parcel-cache ./docs ./dist"
   },
   "keywords": [],
