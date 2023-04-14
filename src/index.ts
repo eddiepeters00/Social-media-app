@@ -28,10 +28,7 @@ async function logInHandler(userObj: UserInput) {
     } else {
         console.log('Logging in...');
         localStorage.setItem('user', JSON.stringify(Object.values(foundUser)));
-
-        setTimeout(() => {
-            location.assign("./html/profile.html");
-        }, 1000);
+        location.replace("/FE22-js2-slutprojekt-eddie-peters/html/profile.html");
     }
 }
 
