@@ -13,6 +13,7 @@ document.querySelectorAll('.image-select img').forEach(img => {
     });
 });
 
+
 //Get userinputs from register-form
 const registerForm = document.querySelector('#register-form') as HTMLFormElement;
 registerForm.addEventListener('submit', e => {
@@ -30,7 +31,6 @@ registerForm.addEventListener('submit', e => {
 //Check if user exists in db
 async function registerHandler(userObj: UserInput) {
     const foundUser: Object = await findUserInDb(userObj);
-    console.log('HÄÄÄÄÄÄ',isEmpty(foundUser));
     if (!isEmpty(foundUser)) {
         addUserToDb(userObj);
 
