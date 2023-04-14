@@ -53,7 +53,7 @@ if (deleteAccountBtn) {
     console.log('DELETE ACCOUNT');
     if(user !== null && user !== undefined){
         deleteAccount(user);
-        document.location.href="/";
+        document.location.href="/FE22-js2-slutprojekt-eddie-peters/index.html";
     }
   });
 }
