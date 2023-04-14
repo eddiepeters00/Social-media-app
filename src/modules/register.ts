@@ -37,7 +37,7 @@ async function registerHandler(userObj: UserInput) {
 
         //Add animation? 
         setTimeout(() => {
-            location.replace('../index.html');
+            location.replace('/FE22-js2-slutprojekt-eddie-peters/');
         }, 1000);
     } else {
         //Prompt message to user
