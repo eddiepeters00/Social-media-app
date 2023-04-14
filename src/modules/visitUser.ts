@@ -103,6 +103,9 @@ async function getUserPosts(user: User) {
             user.setPosts(postsArray);
             displayPosts(user);
         }
+        else{
+            console.log('User has no posts');
+        }
     }
 }
 
