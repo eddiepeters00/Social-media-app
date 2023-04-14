@@ -1,5 +1,5 @@
 import { getAllUsers, getUserIndex, getPostsFromDb, addPostsToDb, deleteAccount } from "../modules/firebase";
-import { createNewUser, Post} from "./interfaces";
+import { createNewUser, Post, placeImg } from "./interfaces";
 import { User } from "./User";
 
 const sideNav = document.getElementById('side-nav') as HTMLDivElement;
@@ -69,7 +69,7 @@ function displayContent(user: User) {
     //Display profileImg
     const profileImg = document.querySelectorAll('.profile-img') as NodeListOf<HTMLImageElement>;
     for (let i = 0; i < profileImg.length; i++) {
-        placeImg(profileImg[i], user);
+        placeImg(profileImg[i], user.getImgUrl());
     }
 
     //Displays all posts from this user
@@ -128,32 +128,6 @@ async function loadContent() {
     });
   }
 
-
-function placeImg(imgElement: HTMLImageElement, user: User): void {
-    const url = user.getImgUrl();
-    let imgUrl: URL = new URL('../images/cat-profile.jpg', import.meta.url);
-
-    switch (url) {
-        case '../images/cat-profile.jpg':
-            imgUrl = new URL('../images/cat-profile.jpg', import.meta.url);
-            imgElement.src = imgUrl.href;
-            break;
-
-        case '../images/mona-profile.jpg':
-            imgUrl = new URL('../images/mona-profile.jpg', import.meta.url);
-            imgElement.src = imgUrl.href;
-            break;
-
-        case '../images/thing-profile.jpg':
-            imgUrl = new URL('../images/thing-profile.jpg', import.meta.url);
-            imgElement.src = imgUrl.href;
-            break;
-
-        default:
-            console.log('URL is not recognized');
-            break;
-    }
-}
 
 function displayPosts(user: User) {
     if (user.getPosts().length !== 0) {

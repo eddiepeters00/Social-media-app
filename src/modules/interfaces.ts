@@ -52,3 +52,29 @@ export function isEmpty(obj: Object): boolean {
     console.log(Object.keys(obj).length !== 0);
       return Object.keys(obj).length !== 0;
 }
+
+
+export function placeImg(imgElement: HTMLImageElement, imgURL: string): void {
+    let imgUrl: URL = new URL('../images/cat-profile.jpg', import.meta.url);
+
+    switch (imgURL) {
+        case '../images/cat-profile.jpg': 
+            imgUrl = new URL('../images/cat-profile.jpg', import.meta.url);
+            imgElement.src = imgUrl.href;
+            break;
+
+        case '../images/mona-profile.jpg':
+            imgUrl = new URL('../images/mona-profile.jpg', import.meta.url);
+            imgElement.src = imgUrl.href;
+            break;
+
+        case '../images/thing-profile.jpg':
+            imgUrl = new URL('../images/thing-profile.jpg', import.meta.url);
+            imgElement.src = imgUrl.href;
+            break;
+
+        default:
+            console.log('URL is not recognized');
+            break;
+    }
+}
