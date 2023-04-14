@@ -5,10 +5,6 @@ import { UserInput } from "./interfaces";
 const userObj: UserInput = {};
 userObj['posts'] = '';
 
-document.querySelector('.a-link')?.addEventListener('click', () =>{
-    location.replace('/index.html');
-});
-
 document.querySelectorAll('.image-select img').forEach(img => {
     img.addEventListener('click', () => {
         console.log(img.ariaValueText);
