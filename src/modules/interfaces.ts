@@ -44,3 +44,11 @@ export function createNewUser(localUser: string) {
     }
     return;
 }
+
+
+//Returns true if object is empty
+export function isEmpty(obj: Object): boolean {
+    console.log('ISEMPTY', obj);
+    console.log(Object.keys(obj).length !== 0);
+      return Object.keys(obj).length !== 0;
+}

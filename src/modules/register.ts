@@ -1,6 +1,5 @@
 import { findUserInDb, addUserToDb } from "../modules/firebase";
-import { isEmpty } from "./login";
-import { UserInput } from "./interfaces";
+import { UserInput, isEmpty } from "./interfaces";
 
 const userObj: UserInput = {};
 userObj['posts'] = '';
