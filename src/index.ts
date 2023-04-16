@@ -28,6 +28,6 @@ async function logInHandler(userObj: UserInput) {
     } else {
         console.log('Logging in...');
         localStorage.setItem('user', JSON.stringify(Object.values(foundUser)));
-        location.replace("/FE22-js2-slutprojekt-eddie-peters/html/profile.html");
+        location.assign("/html/profile.html");
     }
 }

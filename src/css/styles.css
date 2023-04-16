@@ -36,7 +36,14 @@ h1{
     padding: 1rem;
 }
 
+.center{
+  display: flex;
+  justify-content: center;
+}
+
+
 .place-content-center{
+  max-width: 1000px;
   height: 100vh;
 }
 
