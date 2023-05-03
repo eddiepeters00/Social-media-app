@@ -100,7 +100,7 @@ async function deleteAccount(user: User) {
     const index = await getUserIndex(user);
     const url = `https://js2-social-media-default-rtdb.europe-west1.firebasedatabase.app/users/${index}.json`;
     fetch(url, {
-        method: 'DELETE',
+        method: 'DELETE'
     });
 }
 

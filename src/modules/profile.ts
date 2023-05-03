@@ -20,7 +20,7 @@ console.log(user);
 if (user !== undefined) {
     displayContent(user);
     getUserPosts(user)
-    .then(loadContent);
+        .then(loadContent);
 }
 
 
@@ -49,13 +49,15 @@ postForm.addEventListener('submit', async e => {
 //EventListener on deleteAccount
 const deleteAccountBtn = document.getElementById('delete-account');
 if (deleteAccountBtn) {
-  deleteAccountBtn.addEventListener('click', () => {
-    console.log('DELETE ACCOUNT');
-    if(user !== null && user !== undefined){
-        deleteAccount(user);
-        document.location.href="/FE22-js2-slutprojekt-eddie-peters/index.html";
-    }
-  });
+    deleteAccountBtn.addEventListener('click', async () => {
+        console.log('DELETE ACCOUNT');
+        if (user !== null && user !== undefined) {
+            await deleteAccount(user);
+            setTimeout(() => {
+                document.location.href = "/FE22-js2-slutprojekt-eddie-peters/index.html";
+            }, 1500);
+        }
+    });
 }
 
 function displayContent(user: User) {
@@ -76,12 +78,12 @@ function displayContent(user: User) {
     displayPosts(user);
 }
 
-async function getUserPosts(user: User){
+async function getUserPosts(user: User) {
     const userIndex = await getUserIndex(user);
     if (userIndex !== null && userIndex !== undefined) {
         console.log(userIndex);
         const userPosts = await getPostsFromDb(userIndex);
-        if(Array.isArray(userPosts)){
+        if (Array.isArray(userPosts)) {
             const postsArray: Post[] = [];
             userPosts.forEach(post => {
                 postsArray.push(post);
@@ -99,34 +101,34 @@ async function getUserPosts(user: User){
 async function loadContent() {
     const allUsers = await getAllUsers();
     allUsers.forEach(user => {
-      const userList = document.getElementById('user-list');
-      if (userList !== null && userList.children.length < allUsers.length && user !== null) {
-        const userLink = document.createElement('a') as HTMLAnchorElement;
-        userLink.innerText = user.userName;
-        
-        const userInfo = {
-          name: user.name,
-          userName: user.userName,
-          imgUrl: user.imgUrl,
-          posts: user.posts
-        };
-  
-        userLink.ariaValueText = JSON.stringify(userInfo);
-        userList.appendChild(userLink);
-  
-        userLink.addEventListener('click', () => {
-          if(userLink.ariaValueText){
-            console.log(userLink.ariaValueText);
-            const visitUserObj = JSON.parse(userLink.ariaValueText);
-            localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
-            console.log(localStorage.getItem('visitUser'));
-          }
-  
-          location.assign('./visitProfile.html');
-        });
-      }
+        const userList = document.getElementById('user-list');
+        if (userList !== null && userList.children.length < allUsers.length && user !== null) {
+            const userLink = document.createElement('a') as HTMLAnchorElement;
+            userLink.innerText = user.userName;
+
+            const userInfo = {
+                name: user.name,
+                userName: user.userName,
+                imgUrl: user.imgUrl,
+                posts: user.posts
+            };
+
+            userLink.ariaValueText = JSON.stringify(userInfo);
+            userList.appendChild(userLink);
+
+            userLink.addEventListener('click', () => {
+                if (userLink.ariaValueText) {
+                    console.log(userLink.ariaValueText);
+                    const visitUserObj = JSON.parse(userLink.ariaValueText);
+                    localStorage.setItem('visitUser', JSON.stringify(Object.values(visitUserObj)));
+                    console.log(localStorage.getItem('visitUser'));
+                }
+
+                location.assign('./visitProfile.html');
+            });
+        }
     });
-  }
+}
 
 
 function displayPosts(user: User) {
@@ -159,4 +161,4 @@ function displayPosts(user: User) {
     }
 }
 
-export {createNewUser}
+export { createNewUser }
